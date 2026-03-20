@@ -1,0 +1,44 @@
+{
+    "songs": [
+        {
+            "title": "Song 1",
+            "artist": "Musik",
+            "url": "Song1.mp4"
+        },
+        {
+            "title": "Song 2",
+            "artist": "Musik",
+            "url": "Song2.mp3"
+        },
+        {
+            "title": "Song 3",
+            "artist": "Musik",
+            "url": "Song3.mp3"
+        },
+        {
+            "title": "Song 4",
+            "artist": "Musik",
+            "url": "Song4.mp3"
+        },
+        {
+            "title": "Song 5",
+            "artist": "Musik",
+            "url": "Song5.mp3"
+        },
+        {
+            "title": "Song 7",
+            "artist": "Musik",
+            "url": "Song7.mp3"
+        },
+        {
+            "title": "Song 8",
+            "artist": "Musik",
+            "url": "Song8.m4a"
+        },
+        {
+            "title": "Song 9",
+            "artist": "Musik",
+            "url": "Song9.m4a"
+        }
+    ]
+}
