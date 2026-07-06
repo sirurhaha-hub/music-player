@@ -526,24 +526,34 @@
                 loopBtn.classList.remove('active');
             }
             
-            if (isPlaying) audio.play();
+            // Wichtig: Nur abspielen wenn isPlaying true ist
+            if (isPlaying) {
+                audio.play().catch(e => console.log('Playback error:', e));
+            }
         }
         
         function togglePlay() {
             if (isPlaying) {
                 audio.pause();
             } else {
-                audio.play().catch(e => console.log('Playback error:', e));
+                isPlaying = true;
+                audio.play().catch(e => {
+                    console.log('Playback error:', e);
+                    isPlaying = false;
+                    playBtn.textContent = '▶';
+                });
             }
         }
         
         function nextSong() {
             if (!songs.length) return;
             
-            // Wenn Loop aktiv ist und wir manuell skippen, bleibt Loop an
             currentIndex = (currentIndex + 1) % songs.length;
             loadSong(currentIndex);
-            if (isPlaying) audio.play();
+            // Stelle sicher, dass der Player abspielt, wenn er vorher gespielt hat
+            if (isPlaying) {
+                audio.play().catch(e => console.log('Playback error:', e));
+            }
         }
         
         function prevSong() {
@@ -557,7 +567,9 @@
             
             currentIndex = (currentIndex - 1 + songs.length) % songs.length;
             loadSong(currentIndex);
-            if (isPlaying) audio.play();
+            if (isPlaying) {
+                audio.play().catch(e => console.log('Playback error:', e));
+            }
         }
         
         // ============================================
@@ -656,14 +668,24 @@
         audio.ontimeupdate = updateTimeline;
         
         // ============================================
-        // AUTO-NEXT: WENN LIED ZU ENDE IST
+        // AUTO-NEXT: WENN LIED ZU ENDE IST - JETZT MIT AUTOMATISCHEM PLAY!
         // ============================================
         audio.onended = () => {
             // Wenn Loop aktiv ist, wird der Song automatisch wiederholt (audio.loop = true)
-            // Wenn nicht, gehe zum nächsten Song
+            // Wenn nicht, gehe zum nächsten Song und spiele ihn automatisch ab
             if (!isLooping) {
-                // Automatisch zum nächsten Song wechseln
-                nextSong();
+                // Gehe zum nächsten Song
+                currentIndex = (currentIndex + 1) % songs.length;
+                loadSong(currentIndex);
+                // STARTE AUTOMATISCH DIE WIEDERGABE
+                if (songs.length > 0) {
+                    isPlaying = true;
+                    audio.play().catch(e => {
+                        console.log('Auto-play error:', e);
+                        isPlaying = false;
+                        playBtn.textContent = '▶';
+                    });
+                }
             }
             renderPlaylist();
         };
