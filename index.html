@@ -655,10 +655,14 @@
         
         audio.ontimeupdate = updateTimeline;
         
+        // ============================================
+        // AUTO-NEXT: WENN LIED ZU ENDE IST
+        // ============================================
         audio.onended = () => {
             // Wenn Loop aktiv ist, wird der Song automatisch wiederholt (audio.loop = true)
             // Wenn nicht, gehe zum nächsten Song
             if (!isLooping) {
+                // Automatisch zum nächsten Song wechseln
                 nextSong();
             }
             renderPlaylist();
